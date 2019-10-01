@@ -1,0 +1,36 @@
+{
+    "name": "musonza/laravel-activity-streams",
+    "description": "Laravel Package to help with feeds and activity streams in your application",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tmusonza",
+            "email": "tinashemusonza@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "laravel/framework": "~6.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "orchestra/testbench": "~4.0",
+        "orchestra/database": "~4.0",
+        "mockery/mockery": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Musonza\\ActivityStreams\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Musonza\\ActivityStreams\\Tests\\": "tests"
+        },
+        "files": ["tests/Helpers/Models.php"]
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
