@@ -9,6 +9,7 @@ use Musonza\ActivityStreams\Exceptions\InvalidActivityVerbException;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
 use Musonza\ActivityStreams\ValueObjects\Actor;
+use Musonza\ActivityStreams\ValueObjects\Target;
 
 /*
   {
@@ -78,7 +79,7 @@ class ActivityManager
      * @param Model $model
      * @return ActivityManager
      */
-    public function model(Model $model)
+    public function actorModel(Model $model)
     {
         return $this->setActor(Actor::createActorFromModel($model));
     }
@@ -106,6 +107,11 @@ class ActivityManager
         $this->verb = $verb;
 
         return $this;
+    }
+
+    public function targetModel(Model $model)
+    {
+        return $this->setTarget(Target::createTargetFromModel($model));
     }
 
     public function setTarget(ActivityTarget $target): self

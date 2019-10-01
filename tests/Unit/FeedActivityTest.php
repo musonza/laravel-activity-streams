@@ -3,9 +3,11 @@
 namespace Musonza\ActivityStreams\Tests\Unit;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Managers\ActivityManager;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
+use Musonza\ActivityStreams\Tests\Helpers\Models\Blog;
 use Musonza\ActivityStreams\Tests\Helpers\Models\User;
 use Musonza\ActivityStreams\Tests\Helpers\Targets\SampleTarget;
 use Musonza\ActivityStreams\Tests\TestCase;
@@ -25,36 +27,33 @@ class FeedActivityTest extends TestCase
      * @var ActivityManager
      */
     private $activityService;
-    /**
-     * @var SampleTarget
-     */
-    private $sampleTarget;
 
-    public function setUp(): void
+    protected function isActorModel($actor)
     {
-        parent::setUp();
-        $this->sampleTarget = new SampleTarget();
+        return $actor instanceof Model;
     }
 
     /**
      * @throws Exception
+     * @dataProvider activitiesDataProvider
      */
-    public function testAddFeedActivityWithModelActor()
+    public function testAddFeedActivityWithModelActor($target, $actor)
     {
         $this->createFeed();
 
+        if (isset($actor['is_model'])) {
+            $actor['value'] = $this->user;
+            $this->activityService = $this->activityService->actorModel($actor['value']);
+        } else {
+            $this->activityService = $this->activityService->setActor($actor['value']);
+        }
+
         /** @var Activity $activity */
-        $activity = $this->activityService->model($this->user)
+        $activity = $this->activityService
             ->setVerb('post')
-            ->setTarget($this->sampleTarget)
+            ->setTarget($target)
             ->setObject(5)
             ->createActivity();
-
-        $this->assertDatabaseHas(TestCase::ACTIVITIES_TABLE, [
-            'id' => 1,
-            'actor_type' => get_class($this->user),
-            'actor_id' => $this->user->id,
-        ]);
 
         $this->activityService->addActivityToFeed($this->feed, $activity);
 
@@ -70,28 +69,47 @@ class FeedActivityTest extends TestCase
 
     /**
      * @throws Exception
+     * @dataProvider activitiesDataProvider
      */
-    public function testAddFeedActivityWithNoneModelActor()
+    public function testAddFeedActivityWithNoneModelActor($target, $actor)
     {
         $this->createFeed();
 
-        $actor = new Actor('twitter_user', 126626);
+        if (isset($actor['is_model'])) {
+            $actor['value'] = $this->user;
+            $this->activityService = $this->activityService->actorModel($actor['value']);
+        } else {
+            $this->activityService = $this->activityService->setActor($actor['value']);
+        }
 
         /** @var Activity $activity */
-        $activity = $this->activityService->setActor($actor)
+        $activity = $this->activityService
             ->setVerb('post')
-            ->setTarget($this->sampleTarget)
+            ->setTarget($target)
             ->setObject(5)
             ->createActivity();
-
-        $this->assertDatabaseHas(TestCase::ACTIVITIES_TABLE, [
-            'id' => 1,
-            'actor_type' => 'twitter_user',
-            'actor_id' => '126626',
-        ]);
 
         $this->activityService->addActivityToFeed($this->feed, $activity);
 
         $this->assertSame(1, $this->feed->activities()->count());
+    }
+
+    public function activitiesDataProvider()
+    {
+        return [
+            [
+                'target' => new SampleTarget(),
+                'actor' => [
+                    'is_model' => true,
+                    'value' => null,
+                ],
+            ],
+            [
+                'target' => new SampleTarget(),
+                'actor' => [
+                    'value' => new Actor('twitter_user', 126626)
+                ],
+            ],
+        ];
     }
 }

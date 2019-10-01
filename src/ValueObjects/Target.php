@@ -2,6 +2,7 @@
 
 namespace Musonza\ActivityStreams\ValueObjects;
 
+use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Contracts\ActivityTarget;
 
 class Target implements ActivityTarget
@@ -26,6 +27,11 @@ class Target implements ActivityTarget
         $this->targetType = $targetType;
         $this->targetIdentifier = $targetIdentifier;
         $this->extraData = $extraData;
+    }
+
+    public static function createTargetFromModel(Model $model, $extraData = [])
+    {
+        return new static(get_class($model), $model->getKey(), $extraData);
     }
 
     public function getType(): string

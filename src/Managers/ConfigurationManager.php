@@ -27,4 +27,9 @@ class ConfigurationManager
             throw new InvalidActivityVerbException(sprintf('Invalid verb provided: %s', $verb));
         }
     }
+
+    public function getVerbs()
+    {
+        return $this->configuration['verbs'];
+    }
 }
