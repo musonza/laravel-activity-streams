@@ -7,6 +7,7 @@ use Musonza\ActivityStreams\Managers\ActivityManager;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
 use Musonza\ActivityStreams\Tests\Helpers\Models\User;
+use Musonza\ActivityStreams\Tests\Helpers\Targets\SampleTarget;
 use Musonza\ActivityStreams\Tests\TestCase;
 use Musonza\ActivityStreams\ValueObjects\Actor;
 
@@ -24,6 +25,16 @@ class FeedActivityTest extends TestCase
      * @var ActivityManager
      */
     private $activityService;
+    /**
+     * @var SampleTarget
+     */
+    private $sampleTarget;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->sampleTarget = new SampleTarget();
+    }
 
     /**
      * @throws Exception
@@ -35,7 +46,7 @@ class FeedActivityTest extends TestCase
         /** @var Activity $activity */
         $activity = $this->activityService->model($this->user)
             ->setVerb('post')
-            ->setTarget(4)
+            ->setTarget($this->sampleTarget)
             ->setObject(5)
             ->createActivity();
 
@@ -69,7 +80,7 @@ class FeedActivityTest extends TestCase
         /** @var Activity $activity */
         $activity = $this->activityService->setActor($actor)
             ->setVerb('post')
-            ->setTarget(4)
+            ->setTarget($this->sampleTarget)
             ->setObject(5)
             ->createActivity();
 

@@ -28,7 +28,10 @@
         "psr-4": {
             "Musonza\\ActivityStreams\\Tests\\": "tests"
         },
-        "files": ["tests/Helpers/Models.php"]
+        "files": [
+            "tests/Helpers/Models.php",
+            "tests/Helpers/Targets.php"
+        ]
     },
     "scripts": {
         "test": "phpunit"

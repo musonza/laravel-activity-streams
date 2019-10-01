@@ -27,7 +27,6 @@ class CreateActivityStreamsTables extends Migration
             $table->string('actor_id');
             $table->string('verb');
             $table->string('object');
-            $table->string('target');
             $table->string('target_type')->nullable();
             $table->string('target_id')->nullable();
             $table->timestamps();
