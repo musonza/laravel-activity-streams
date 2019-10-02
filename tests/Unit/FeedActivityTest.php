@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Managers\ActivityManager;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
-use Musonza\ActivityStreams\Tests\Helpers\Models\Blog;
 use Musonza\ActivityStreams\Tests\Helpers\Models\User;
 use Musonza\ActivityStreams\Tests\Helpers\Targets\SampleTarget;
 use Musonza\ActivityStreams\Tests\TestCase;
@@ -58,7 +57,7 @@ class FeedActivityTest extends TestCase
 
         $this->activityService->addActivityToFeed($this->feed, $activity);
 
-        $this->assertSame(1, $this->feed->activities()->count());
+        $this->assertEquals(1, $this->feed->activities()->count());
     }
 
     protected function createFeed()

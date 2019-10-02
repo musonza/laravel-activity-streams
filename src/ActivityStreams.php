@@ -60,6 +60,18 @@ class ActivityStreams
     }
 
     /**
+     * @param string $verb
+     * @return $this
+     * @throws Exceptions\InvalidActivityVerbException
+     */
+    public function setVerb(string $verb)
+    {
+        $this->activityManager->setVerb($verb);
+
+        return $this;
+    }
+
+    /**
      * Set activity target.
      *
      * @param $target
@@ -100,7 +112,7 @@ class ActivityStreams
      *
      * @return Activity
      */
-    protected function saveActivity(): Activity
+    public function createActivity(): Activity
     {
         return $this->activityManager->createActivity();
     }
