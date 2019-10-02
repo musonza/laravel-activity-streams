@@ -12,4 +12,12 @@ class ActivityStreamsServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $defer = false;
+
+    public function register()
+    {
+        $this->app->bind('activity_streams', function () {
+            return $this->app->make(ActivityStreams::class);
+        });
+    }
+
 }

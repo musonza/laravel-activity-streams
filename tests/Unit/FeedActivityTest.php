@@ -51,7 +51,7 @@ class FeedActivityTest extends TestCase
 
         /** @var Activity $activity */
         $activity = $this->activityService
-            ->setVerb(Verbs::POST)
+            ->setVerb(Verbs::VERB_POST)
             ->setTarget($target)
             ->setObject(5)
             ->createActivity();
