@@ -33,7 +33,7 @@ class ActivityStreams
 
     /**
      * Add an activity to a feed.
-     * 
+     *
      * @param Feed $feed
      * @param Activity $activity
      */
@@ -81,6 +81,7 @@ class ActivityStreams
     public function setObject($activityObject): self
     {
         $this->activityManager->setObject($activityObject);
+
         return $this;
     }
 

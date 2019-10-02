@@ -12,6 +12,7 @@ use Musonza\ActivityStreams\Tests\Helpers\Models\User;
 use Musonza\ActivityStreams\Tests\Helpers\Targets\SampleTarget;
 use Musonza\ActivityStreams\Tests\TestCase;
 use Musonza\ActivityStreams\ValueObjects\Actor;
+use Musonza\ActivityStreams\ValueObjects\Verbs;
 
 class FeedActivityTest extends TestCase
 {
@@ -50,7 +51,7 @@ class FeedActivityTest extends TestCase
 
         /** @var Activity $activity */
         $activity = $this->activityService
-            ->setVerb('post')
+            ->setVerb(Verbs::POST)
             ->setTarget($target)
             ->setObject(5)
             ->createActivity();
