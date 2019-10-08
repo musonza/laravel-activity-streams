@@ -4,7 +4,7 @@ namespace Musonza\ActivityStreams\Contracts;
 
 interface ActivityActor
 {
-    public function getActorType(): string ;
-    public function getActorIdentifier(): string ;
-    public function getActorDetails(): array ;
+    public function getType(): string ;
+    public function getIdentifier(): string ;
+    public function getDetails(): array ;
 }

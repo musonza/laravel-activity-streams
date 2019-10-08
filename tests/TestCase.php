@@ -8,6 +8,7 @@ require __DIR__.'/Helpers/migrations.php';
 use CreateTestTables;
 use CreateActivityStreamsTables;
 use Illuminate\Foundation\Application;
+use Musonza\ActivityStreams\ActivityStreamsFacade;
 use Musonza\ActivityStreams\ActivityStreamsServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 

@@ -9,3 +9,5 @@ class User extends Model
 {
     use HasFeed;
 }
+
+class Blog extends Model {}

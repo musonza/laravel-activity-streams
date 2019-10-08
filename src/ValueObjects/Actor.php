@@ -33,12 +33,12 @@ class Actor implements ActivityActor
         return new static(get_class($model), $model->getKey(), $extraData);
     }
 
-    public function getActorType(): string
+    public function getType(): string
     {
         return $this->actorType;
     }
 
-    public function getActorIdentifier(): string
+    public function getIdentifier(): string
     {
         return $this->actorIdentifier;
     }
@@ -58,7 +58,7 @@ class Actor implements ActivityActor
      *
      * @return array
      */
-    public function getActorDetails(): array
+    public function getDetails(): array
     {
         /**
          * avatar

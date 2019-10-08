@@ -4,11 +4,12 @@ namespace Musonza\ActivityStreams\Managers;
 
 use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Contracts\ActivityActor;
+use Musonza\ActivityStreams\Contracts\ActivityTarget;
 use Musonza\ActivityStreams\Exceptions\InvalidActivityVerbException;
-use Musonza\ActivityStreams\Exceptions\InvalidActorException;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
 use Musonza\ActivityStreams\ValueObjects\Actor;
+use Musonza\ActivityStreams\ValueObjects\Target;
 
 /*
   {
@@ -49,12 +50,12 @@ class ActivityManager
      */
     protected $verb;
     /**
-     * @var
+     * @var ActivityTarget
      */
     protected $target;
 
     /**
-     * @var Actor
+     * @var ActivityActor
      */
     protected $actor;
     private $activityObject;
@@ -78,7 +79,7 @@ class ActivityManager
      * @param Model $model
      * @return ActivityManager
      */
-    public function model(Model $model)
+    public function actorModel(Model $model)
     {
         return $this->setActor(Actor::createActorFromModel($model));
     }
@@ -108,7 +109,12 @@ class ActivityManager
         return $this;
     }
 
-    public function setTarget($target): self
+    public function targetModel(Model $model)
+    {
+        return $this->setTarget(Target::createTargetFromModel($model));
+    }
+
+    public function setTarget(ActivityTarget $target): self
     {
         $this->target = $target;
 
@@ -125,11 +131,12 @@ class ActivityManager
     public function createActivity(): Activity
     {
         $activityData = [
-            'actor_type' => $this->actor->getActorType(),
-            'actor_id' => $this->actor->getActorIdentifier(),
+            'actor_type' => $this->actor->getType(),
+            'actor_id' => $this->actor->getIdentifier(),
             'verb' => $this->verb,
             'object' => $this->activityObject,
-            'target' => $this->target,
+            'target_type' => $this->target->getType(),
+            'target_id' => $this->target->getIdentifier(),
         ];
 
         $activity =  $this->activity->newInstance($activityData);

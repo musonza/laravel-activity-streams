@@ -1,8 +1,9 @@
 <?php
 
 return [
+    // Additional verbs here
     'verbs' => [
-      'post',
-      'like'
+        'FOO' => 'foo',
+        'BAR' => 'bar',
     ],
 ];
