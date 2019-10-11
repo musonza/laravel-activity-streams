@@ -30,7 +30,8 @@
         },
         "files": [
             "tests/Helpers/Models.php",
-            "tests/Helpers/Targets.php"
+            "tests/Helpers/Targets.php",
+            "tests/Helpers/Objects.php"
         ]
     },
     "scripts": {

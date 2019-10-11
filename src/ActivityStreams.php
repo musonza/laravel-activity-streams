@@ -7,6 +7,9 @@ use Musonza\ActivityStreams\Managers\ActivityManager;
 use Musonza\ActivityStreams\Managers\ConfigurationManager;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
+use Musonza\ActivityStreams\ValueObjects\ActivityObject;
+use Musonza\ActivityStreams\ValueObjects\Actor;
+use Musonza\ActivityStreams\ValueObjects\Target;
 
 class ActivityStreams
 {
@@ -51,12 +54,21 @@ class ActivityStreams
     public function setActor($actor): self
     {
         if ($actor instanceof Model) {
-            $this->activityManager->actorModel($actor);
-        } else {
-            $this->activityManager->setActor($actor);
+            $actor = $this->actorFromModel($actor);
         }
 
+        $this->activityManager->setActor($actor);
+
         return $this;
+    }
+
+    /**
+     * @param Model $model
+     * @return Actor
+     */
+    public function actorFromModel(Model $model)
+    {
+        return Actor::createFromModel($model);
     }
 
     /**
@@ -79,9 +91,22 @@ class ActivityStreams
      */
     public function setTarget($target): self
     {
+        if ($target instanceof Model) {
+            $target = $this->targetFromModel($target);
+        }
+
         $this->activityManager->setTarget($target);
 
         return $this;
+    }
+
+    /**
+     * @param Model $model
+     * @return Target
+     */
+    public function targetFromModel(Model $model)
+    {
+        return Target::createFromModel($model);
     }
 
     /**
@@ -92,9 +117,22 @@ class ActivityStreams
      */
     public function setObject($activityObject): self
     {
+        if ($activityObject instanceof Model) {
+            $activityObject = $this->objectFromModel($activityObject);
+        }
+
         $this->activityManager->setObject($activityObject);
 
         return $this;
+    }
+
+    /**
+     * @param Model $model
+     * @return ActivityObject
+     */
+    public function objectFromModel(Model $model)
+    {
+        return ActivityObject::createFromModel($model);
     }
 
     /**

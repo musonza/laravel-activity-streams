@@ -6,5 +6,5 @@ interface ActivityActor
 {
     public function getType(): string ;
     public function getIdentifier(): string ;
-    public function getDetails(): array ;
+    public function getExtraData(): array ;
 }

@@ -12,12 +12,19 @@ class FeedTest extends TestCase
         /** @var User $user */
         $user = factory(User::class)->create();
 
-        $user->createFeed();
+        $data = [
+            'title' => 'My Feed',
+            'description' => 'My description'
+        ];
+
+        $feed = $user->createFeed($data);
+
+        $this->assertEquals($data, $feed->extra);
 
         $this->assertDatabaseHas(TestCase::FEEDS_TABLE, [
-           'id' => 1,
+            'id' => 1,
             'feedable_type' => get_class($user),
-            'feedable_id' => $user->id,
+            'feedable_id' => $user->id
         ]);
     }
 }

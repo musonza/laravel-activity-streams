@@ -3,32 +3,40 @@
 namespace Musonza\ActivityStreams\ValueObjects;
 
 use Illuminate\Database\Eloquent\Model;
-use Musonza\ActivityStreams\Contracts\ActivityActor;
+use Musonza\ActivityStreams\Contracts\ActivityObject as ActivityObjectInterface;
 use Musonza\ActivityStreams\Contracts\ReturnsExtraData;
 
-class Actor implements ActivityActor
+class ActivityObject implements ActivityObjectInterface
 {
     /**
      * @var string
      */
-    protected $actorType;
+    protected $objectType;
+
     /**
      * @var string
      */
-    protected $actorIdentifier;
+    protected $objectIdentifier;
+
     /**
      * @var array
      */
     protected $extraData;
 
-    public function __construct(string $actorType, string $actorIdentifier, array $extraData = [])
+    /**
+     * ActivityObject constructor.
+     * @param string $objectType
+     * @param string $objectIdentifier
+     * @param array $extraData
+     */
+    public function __construct(string $objectType, string $objectIdentifier, array $extraData = [])
     {
-        $this->actorType = $actorType;
-        $this->actorIdentifier = $actorIdentifier;
+        $this->objectType = $objectType;
+        $this->objectIdentifier = $objectIdentifier;
         $this->extraData = $extraData;
     }
 
-    public static function createFromModel(Model $model, $extraData = []): Actor
+    public static function createFromModel(Model $model, $extraData = []): ActivityObject
     {
         if ($model instanceof ReturnsExtraData) {
             $extraData = $model->getExtraData();
@@ -39,12 +47,12 @@ class Actor implements ActivityActor
 
     public function getType(): string
     {
-        return $this->actorType;
+        return $this->objectType;
     }
 
     public function getIdentifier(): string
     {
-        return $this->actorIdentifier;
+        return $this->objectIdentifier;
     }
 
     public function getExtraData(): array

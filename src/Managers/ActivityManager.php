@@ -4,40 +4,12 @@ namespace Musonza\ActivityStreams\Managers;
 
 use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Contracts\ActivityActor;
+use Musonza\ActivityStreams\Contracts\ActivityObject;
 use Musonza\ActivityStreams\Contracts\ActivityTarget;
 use Musonza\ActivityStreams\Exceptions\InvalidActivityVerbException;
 use Musonza\ActivityStreams\Models\Activity;
 use Musonza\ActivityStreams\Models\Feed;
-use Musonza\ActivityStreams\ValueObjects\Actor;
 use Musonza\ActivityStreams\ValueObjects\Target;
-
-/*
-  {
-    "published": "2011-02-10T15:04:55Z",
-    "actor": {
-      "url": "http://example.org/martin",
-      "objectType" : "person",
-      "id": "tag:example.org,2011:martin",
-      "image": {
-        "url": "http://example.org/martin/image",
-        "width": 250,
-        "height": 250
-      },
-      "displayName": "Martin Smith"
-    },
-    "verb": "post",
-    "object" : {
-      "url": "http://example.org/blog/2011/02/entry",
-      "id": "tag:example.org,2011:abc123/xyz"
-    },
-    "target" : {
-      "url": "http://example.org/blog/",
-      "objectType": "blog",
-      "id": "tag:example.org,2011:abc123",
-      "displayName": "Martin's Blog"
-    }
-  }
- */
 
 class ActivityManager
 {
@@ -45,10 +17,12 @@ class ActivityManager
      * @var Activity
      */
     protected $activity;
+
     /**
      * @var string
      */
     protected $verb;
+
     /**
      * @var ActivityTarget
      */
@@ -58,7 +32,12 @@ class ActivityManager
      * @var ActivityActor
      */
     protected $actor;
+
+    /**
+     * @var ActivityObject
+     */
     private $activityObject;
+
     /**
      * @var ConfigurationManager
      */
@@ -73,15 +52,6 @@ class ActivityManager
     {
         $this->activity = $activity;
         $this->configurationManager = $configurationManager;
-    }
-
-    /**
-     * @param Model $model
-     * @return ActivityManager
-     */
-    public function actorModel(Model $model)
-    {
-        return $this->setActor(Actor::createActorFromModel($model));
     }
 
     /**
@@ -111,7 +81,7 @@ class ActivityManager
 
     public function targetModel(Model $model)
     {
-        return $this->setTarget(Target::createTargetFromModel($model));
+        return $this->setTarget(Target::createFromModel($model));
     }
 
     public function setTarget(ActivityTarget $target): self
@@ -121,7 +91,7 @@ class ActivityManager
         return $this;
     }
 
-    public function setObject($activityObject): self
+    public function setObject(ActivityObject $activityObject): self
     {
         $this->activityObject = $activityObject;
 
@@ -133,13 +103,17 @@ class ActivityManager
         $activityData = [
             'actor_type' => $this->actor->getType(),
             'actor_id' => $this->actor->getIdentifier(),
+            'actor_data' => $this->actor->getExtraData(),
             'verb' => $this->verb,
-            'object' => $this->activityObject,
+            'object_type' => $this->activityObject->getType(),
+            'object_id' => $this->activityObject->getIdentifier(),
+            'object_data' => $this->activityObject->getExtraData(),
             'target_type' => $this->target->getType(),
             'target_id' => $this->target->getIdentifier(),
+            'target_data' => $this->target->getExtraData(),
         ];
 
-        $activity =  $this->activity->newInstance($activityData);
+        $activity = $this->activity->newInstance($activityData);
 
         $activity->save();
 

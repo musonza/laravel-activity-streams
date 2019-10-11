@@ -16,7 +16,7 @@ class SampleTarget implements ActivityTarget
         return 'tag:example.org,2011:abc123';
     }
 
-    public function getDetails(): array
+    public function getExtraData(): array
     {
         // TODO: Implement getTargetDetails() method.
         return [];

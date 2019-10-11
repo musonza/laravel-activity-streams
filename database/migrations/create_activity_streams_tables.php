@@ -18,6 +18,7 @@ class CreateActivityStreamsTables extends Migration
             $table->string('feedable_type');
             $table->string('feedable_id')->unsigned();
             $table->unique(['feedable_id', 'feedable_type']);
+            $table->text('extra')->nullable();
             $table->timestamps();
         });
 
@@ -25,10 +26,14 @@ class CreateActivityStreamsTables extends Migration
             $table->bigIncrements('id');
             $table->string('actor_type');
             $table->string('actor_id');
+            $table->text('actor_data')->nullable();
             $table->string('verb');
-            $table->string('object');
+            $table->string('object_type');
+            $table->string('object_id');
+            $table->text('object_data')->nullable();
             $table->string('target_type')->nullable();
             $table->string('target_id')->nullable();
+            $table->text('target_data')->nullable();
             $table->timestamps();
         });
 
@@ -37,6 +42,7 @@ class CreateActivityStreamsTables extends Migration
             $table->bigInteger('activity_id');
             $table->bigInteger('feed_id');
             $table->unique(['feed_id', 'activity_id']);
+            $table->text('extra')->nullable();
             $table->timestamps();
 
             $table->foreign('activity_id')
@@ -48,6 +54,14 @@ class CreateActivityStreamsTables extends Migration
                 ->references('id')
                 ->on('feeds')
                 ->onDelete('cascade');
+        });
+
+        Schema::create('follows', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('follower_id');
+            $table->string('followable_id');
+            $table->string('followable_type');
+            $table->timestamps();
         });
     }
 
@@ -61,5 +75,6 @@ class CreateActivityStreamsTables extends Migration
         Schema::dropIfExists('feeds');
         Schema::dropIfExists('activities');
         Schema::dropIfExists('feed_activities');
+        Schema::dropIfExists('follows');
     }
 }

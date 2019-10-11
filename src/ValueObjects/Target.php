@@ -4,6 +4,7 @@ namespace Musonza\ActivityStreams\ValueObjects;
 
 use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Contracts\ActivityTarget;
+use Musonza\ActivityStreams\Contracts\ReturnsExtraData;
 
 class Target implements ActivityTarget
 {
@@ -29,8 +30,12 @@ class Target implements ActivityTarget
         $this->extraData = $extraData;
     }
 
-    public static function createTargetFromModel(Model $model, $extraData = [])
+    public static function createFromModel(Model $model, $extraData = []): Target
     {
+        if ($model instanceof ReturnsExtraData) {
+            $extraData = $model->getExtraData();
+        }
+
         return new static(get_class($model), $model->getKey(), $extraData);
     }
 
@@ -44,9 +49,8 @@ class Target implements ActivityTarget
         return $this->targetIdentifier;
     }
 
-    public function getDetails(): array
+    public function getExtraData(): array
     {
-        // TODO: Implement getTargetDetails() method.
-        return [];
+        return $this->extraData;
     }
 }

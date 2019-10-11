@@ -27,11 +27,11 @@ trait HasFeed
     /**
      * Create a feed.
      *
-     * @param array $data
+     * @param array $extra
      * @return false|Model
      */
-    public function createFeed(array $data = [])
+    public function createFeed(array $extra = [])
     {
-        return $this->feed()->save(new Feed($data));
+        return $this->feed()->save(new Feed(['extra' => $extra]));
     }
 }
