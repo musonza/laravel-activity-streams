@@ -3,6 +3,7 @@
 namespace Musonza\ActivityStreams;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Musonza\ActivityStreams\Managers\ActivityManager;
 use Musonza\ActivityStreams\Managers\ConfigurationManager;
 use Musonza\ActivityStreams\Models\Activity;
@@ -38,11 +39,31 @@ class ActivityStreams
      * Add an activity to a feed.
      *
      * @param Feed $feed
-     * @param Activity $activity
+     * @param $activity
      */
-    public function addActivityToFeed(Feed $feed, Activity $activity): void
+    public function addActivityToFeed(Feed $feed, $activity): void
     {
+          if ($activity instanceof Collection) {
+              $filteredActivities = $activity->whereInstanceOf(Activity::class);
+
+              // TODO batch insert
+              foreach ($filteredActivities as $activity) {
+                  $this->activityManager->addActivityToFeed($feed, $activity);
+              }
+//              $this->activityManager->addMultipleActivitiesToFeed($feed, $filteredActivities);
+              return;
+          }
+
         $this->activityManager->addActivityToFeed($feed, $activity);
+    }
+
+    public function addActivityToMultipleFeeds(Collection $feeds, Activity $activity)
+    {
+        $filteredFeeds = $feeds->whereInstanceOf(Feed::class);
+
+        foreach ($filteredFeeds as $feed) {
+            $this->activityManager->addActivityToFeed($feed, $activity);
+        }
     }
 
     /**

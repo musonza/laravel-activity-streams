@@ -2,51 +2,40 @@
 
 namespace Musonza\ActivityStreams\Traits;
 
-use Musonza\ActivityStreams\Models\Feed;
+use Illuminate\Database\Eloquent\Model;
 use Musonza\ActivityStreams\Models\Follow;
 
 trait Followable
 {
-    public function follow(Feed $followable)
+    public function follow(Model $followable)
     {
-        $follow = new Follow(['follower_id' => $this->getKey()]);
+        $follow = new Follow([
+            'follower_id' => $this->getKey(),
+            'follower_type' => get_class($followable),
+        ]);
 
         return $followable->follows()->save($follow);
     }
 
-    public function unfollow(Feed $followable)
+    public function unfollow(Model $followable)
     {
-        $followable->follows()->where('follower_id', $this->getKey())->delete();
+        $followable->follows()
+            ->where('follower_id', $this->getKey())
+            ->where('follower_type', get_class($followable))
+            ->delete();
     }
 
-    public function isFollowed(Feed $followable)
+    public function isFollowed(Model $followable)
     {
         return !!$this->follows()
             ->where('follower_id', $followable->getKey())
+            ->where('follower_type', get_class($followable))
             ->count();
     }
 
     public function getFollowersCountAttribute()
     {
         return $this->follows()->count();
-    }
-
-    /**
-     * Fetch records that are followed by a given user.
-     * Ex: Feed::whereFollowedBy(123)->get();
-     */
-    public function scopeWhereFollowedBy($query, $followerId)
-    {
-        return $query->whereHas('follows', function ($q) use ($followerId) {
-            $q->where('follower_id', $followerId);
-        });
-    }
-
-    public function scopeWhereFollowers($query, $followerId)
-    {
-        return $query->whereHas('follows', function ($q) use ($followerId) {
-            $q->where('follower_id', $followerId);
-        });
     }
 
     public function follows()

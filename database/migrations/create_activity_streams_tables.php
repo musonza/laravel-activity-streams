@@ -59,6 +59,7 @@ class CreateActivityStreamsTables extends Migration
         Schema::create('follows', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('follower_id');
+            $table->string('follower_type');
             $table->string('followable_id');
             $table->string('followable_type');
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace Musonza\ActivityStreams\Tests\Unit;
 
+use Illuminate\Support\Collection;
 use Musonza\ActivityStreams\ActivityStreams;
 use Musonza\ActivityStreams\Exceptions\InvalidActivityVerbException;
 use Musonza\ActivityStreams\Models\Activity;
@@ -69,6 +70,38 @@ class FacadeTest extends TestCase
         $this->assertEquals(1, $feed->activities()->count());
     }
 
+    public function testAddMultipleActivitiesToFeed()
+    {
+        $user = factory(User::class)->create();
+
+        /** @var Feed $feed */
+        $feed = $user->createFeed();
+
+        $activities = factory(Activity::class, 2)->create();
+
+        $this->activityStreams->addActivityToFeed($feed, $activities);
+
+        $this->assertEquals(2, $feed->activities()->count());
+    }
+
+    public function testAddActivityToMultipleFeeds()
+    {
+        $users = factory(User::class, 5)->create();
+
+        /** @var Collection $feeds */
+        $feeds = collect([]);
+        foreach ($users as $user) {
+            $feeds->add($user->createFeed());
+        }
+
+        /** @var Activity $activity */
+        $activity = factory(Activity::class)->create();
+
+        $this->activityStreams->addActivityToMultipleFeeds($feeds, $activity);
+
+        $this->assertEquals(5, $activity->feeds()->count());
+    }
+
     public function testFeedFollowing()
     {
         /** @var User $user1 */
@@ -85,6 +118,7 @@ class FacadeTest extends TestCase
 
         $this->assertDatabaseHas('follows',[
             'follower_id' => $user1Feed->getKey(),
+            'follower_type' => get_class($user1Feed),
             'followable_type' => get_class($user2Feed),
             'followable_id' => $user2Feed->getKey(),
         ]);

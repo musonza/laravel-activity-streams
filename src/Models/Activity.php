@@ -38,4 +38,9 @@ class Activity extends Model
             event(new ActivityDeleted($activity));
         });
     }
+
+    public function feeds()
+    {
+        return $this->hasMany(FeedActivity::class);
+    }
 }

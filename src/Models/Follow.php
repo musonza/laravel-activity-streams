@@ -8,6 +8,7 @@ class Follow extends Model
 {
     protected $fillable = [
         'follower_id',
+        'follower_type',
     ];
 
     public function feeds()

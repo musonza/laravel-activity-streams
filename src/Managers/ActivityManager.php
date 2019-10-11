@@ -3,6 +3,7 @@
 namespace Musonza\ActivityStreams\Managers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Musonza\ActivityStreams\Contracts\ActivityActor;
 use Musonza\ActivityStreams\Contracts\ActivityObject;
 use Musonza\ActivityStreams\Contracts\ActivityTarget;
@@ -123,5 +124,10 @@ class ActivityManager
     public function addActivityToFeed(Feed $feed, Activity $activity): void
     {
         $feed->activities()->attach($activity);
+    }
+
+    public function addMultipleActivitiesToFeed(Feed $feed, Collection $filteredActivities)
+    {
+        $feed->activities()->insert($filteredActivities->toArray()[0]);
     }
 }
