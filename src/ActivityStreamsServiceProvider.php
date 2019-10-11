@@ -40,7 +40,7 @@ class ActivityStreamsServiceProvider extends ServiceProvider
     {
         $timestamp = date('Y_m_d_His', time());
         $stub = __DIR__.'/../database/migrations/create_activity_streams_tables.php';
-        $target = $this->app->databasePath() . '/migrations/' . $timestamp . '_create_chat_tables.php';
+        $target = $this->app->databasePath() . '/migrations/' . $timestamp . '_create_activity_streams_tables.php';
         $this->publishes([$stub => $target], 'activity.streams.migrations');
     }
 
