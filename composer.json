@@ -36,5 +36,15 @@
     },
     "scripts": {
         "test": "phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Musonza\\ActivityStreams\\ActivityStreamsServiceProvider"
+            ],
+            "aliases": {
+                "ActivityStreams": "Musonza\\ActivityStreams\\ActivityStreamsFacade"
+            }
+        }
     }
 }
