@@ -8,7 +8,14 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
-    -- []
+  - [Facade](#facade)
+  - [Giving a model an ability to have a Feed](#Giving-a-model-an-ability-to-have-a-Feed)
+  - [Create a model Feed](#create-a-model-feed)
+  - [Create an Activity](#create-an-activity)
+  - [What makes a valid Actor?](#What-makes-a-valid-Actor?)
+  - [Get supported verbs](#Get-supported-verbs)
+  - [Create an Activity](#create-an-activity)
+  - [Add an activity to a Feed](#Add-an-activity-to-a-Feed)
 - [Configuration](#configuration)
 - [FAQ](#faq)
 
