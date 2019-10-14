@@ -14,8 +14,9 @@
   - [Create an Activity](#create-an-activity)
   - [Valid Actors](#valid-actors)
   - [Get supported verbs](#Get-supported-verbs)
-  - [Create an Activity](#create-an-activity)
   - [Add an activity to a Feed](#Add-an-activity-to-a-Feed)
+  - [Add multiple activities to a Feed](#Add-multiple-activities-to-a-Feed)
+- [Events](#events)
 - [Configuration](#configuration)
 - [FAQ](#faq)
 
@@ -126,6 +127,38 @@ $verbs = ActivityStreams::verbs();
 ```php
 ActivityStreams::addActivityToFeed($feed, $activity);
 ```
+
+#### Add multiple activities to a Feed
+Adds a `Collection` of activities to a `Feed`
+
+```php
+ActivityStreams::addActivityToFeed($feed, $activities);
+```
+
+#### Add an activity to multiple Feeds
+Adds an `Activity` to a `Collection` feeds
+
+```php
+ActivityStreams::addActivityToMultipleFeeds($feeds, $activity);
+```
+
+## Events
+
+You can leverage and listen for the following events to perform actions in 
+your application. For instance you can listen for an `ActivityCreated` event and depending on 
+your business logic add the created event to a `Feed` or multiple feeds.
+
+#### ActivityCreated
+`Musonza\ActivityStreams\Models\Activity\ActivityCreated`
+
+#### ActivityDeleted
+`Musonza\ActivityStreams\Models\Activity\ActivityDeleted`
+
+#### FeedCreated
+`Musonza\ActivityStreams\Models\Activity\FeedCreated`
+
+#### FeedDeleted
+`Musonza\ActivityStreams\Models\Activity\FeedDeleted`
 
 ## Configuration
 
