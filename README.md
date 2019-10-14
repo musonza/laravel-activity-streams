@@ -12,7 +12,7 @@
   - [Giving a model an ability to have a Feed](#Giving-a-model-an-ability-to-have-a-Feed)
   - [Create a model Feed](#create-a-model-feed)
   - [Create an Activity](#create-an-activity)
-  - [What makes a valid Actor?](#What-makes-a-valid-Actor?)
+  - [Valid Actors](#valid-actors)
   - [Get supported verbs](#Get-supported-verbs)
   - [Create an Activity](#create-an-activity)
   - [Add an activity to a Feed](#Add-an-activity-to-a-Feed)
@@ -113,7 +113,7 @@ $activity = ActivityStreams::setActor($actor)
     ->createActivity();
 ```
 
-#### What makes a valid Actor?
+#### Valid Actors
 
 You can pass in an Eloquent Model as an actor or any Object that implements `Musonza\ActivityStreams\Contracts\ActivityActor` interface
 
