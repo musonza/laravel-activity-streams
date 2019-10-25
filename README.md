@@ -12,7 +12,12 @@
   - [Giving a model an ability to have a Feed](#Giving-a-model-an-ability-to-have-a-Feed)
   - [Create a model Feed](#create-a-model-feed)
   - [Create an Activity](#create-an-activity)
-  - [Valid Actors](#valid-actors)
+  - [Actors](#actors)
+    - [Valid Actors](#valid-actors)
+  - [Targets](#targets)
+    - [Valid Targets](#valid-targets)
+  - [Objects](#objects)
+    - [Valid Objects](#valid-objects)
   - [Get supported verbs](#Get-supported-verbs)
   - [Add an activity to a Feed](#Add-an-activity-to-a-Feed)
   - [Add multiple activities to a Feed](#Add-multiple-activities-to-a-Feed)
@@ -115,9 +120,24 @@ $activity = ActivityStreams::setActor($actor)
     ->createActivity();
 ```
 
-#### Valid Actors
+#### Actors
+
+##### Valid Actors
 
 You can pass in an Eloquent Model as an actor or any Object that implements `Musonza\ActivityStreams\Contracts\ActivityActor` interface
+
+#### Targets
+
+##### Valid Targets
+
+You can pass in an Eloquent Model as a target or any Object that implements `Musonza\ActivityStreams\Contracts\ActivityTarget` interface
+
+#### Objects
+
+##### Valid Objects
+
+You can pass in an Eloquent Model as an object or any Object that implements `Musonza\ActivityStreams\Contracts\ActivityObject` interface
+
 
 #### Get supported verbs
 ```php
