@@ -24,6 +24,7 @@
 
 ## Introduction
 
+This package enables you to have activity streams in your laravel applications.
 
 ## Installation
 
