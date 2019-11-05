@@ -3,6 +3,7 @@
 namespace Musonza\ActivityStreams;
 
 use Illuminate\Support\ServiceProvider;
+use Musonza\ActivityStreams\Console\Commands\MakeFeedCommand;
 
 class ActivityStreamsServiceProvider extends ServiceProvider
 {
@@ -24,11 +25,10 @@ class ActivityStreamsServiceProvider extends ServiceProvider
         $this->publishConfig();
     }
 
-    public function register()
+    public function register(): void
     {
-        $this->app->bind('activity_streams', function () {
-            return $this->app->make(ActivityStreams::class);
-        });
+        $this->registerBinds();
+        $this->registerCommands();
     }
 
     /**
@@ -54,5 +54,21 @@ class ActivityStreamsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config' => config_path(),
         ], 'activity.streams.config');
+    }
+
+    private function registerBinds(): void
+    {
+        $this->app->bind('activity_streams', function () {
+            return $this->app->make(ActivityStreams::class);
+        });
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MakeFeedCommand::class
+            ]);
+        }
     }
 }

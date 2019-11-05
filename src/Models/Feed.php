@@ -11,7 +11,11 @@ class Feed extends Model
 {
     use Followable;
 
-    protected $fillable = ['extra'];
+    protected $fillable = [
+        'extra',
+        'feedable_type',
+        'feedable_id'
+    ];
     protected $casts = [
         'extra' => 'array',
     ];
