@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/musonza/laravel-activity-streams.svg?branch=master)](https://travis-ci.org/musonza/laravel-activity-streams)
+
+
 # Laravel Activity Streams
 
 
