@@ -73,9 +73,9 @@ class CreateActivityStreamsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feeds');
-        Schema::dropIfExists('activities');
-        Schema::dropIfExists('feed_activities');
         Schema::dropIfExists('follows');
+        Schema::dropIfExists('feed_activities');
+        Schema::dropIfExists('activities');
+        Schema::dropIfExists('feeds');
     }
 }

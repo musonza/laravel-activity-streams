@@ -14,6 +14,7 @@
   - [Facade](#facade)
   - [Giving a model an ability to have a Feed](#Giving-a-model-an-ability-to-have-a-Feed)
   - [Create a model Feed](#create-a-model-feed)
+  - [On-Demand Feeds](#On-Demand-Feeds)
   - [Create an Activity](#create-an-activity)
   - [Actors](#actors)
     - [Valid Actors](#valid-actors)
@@ -99,6 +100,32 @@ After adding the `HasFeed` trait you can create a feed for the Model as follows
 ```php
 $feed = $user->createFeed();
 ```
+
+#### On-Demand Feeds
+
+Sometimes you may want to create a Feed that's does not belong to a Model. For example,
+you want to add activities to a Trending Feed for your application:
+
+Create a class to represent the Trending feed under a namespace of choice
+
+```php
+<?php
+
+namespace App;
+
+class Trending
+{
+    // Optional implementation
+}
+
+```
+Then run an artisan command that ships with the package
+
+```php
+php artisan streams:make:feed 'App\Trending' 'some-unique-id'
+```
+
+`some-unique-id` is unique with respect to `$table->unique(['some-unique-id', 'App\Trending']);`
 
 #### Create an Activity
 

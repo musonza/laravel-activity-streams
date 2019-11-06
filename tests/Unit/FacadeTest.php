@@ -88,11 +88,12 @@ class FacadeTest extends TestCase
     {
         $users = factory(User::class, 5)->create();
 
-        /** @var Collection $feeds */
-        $feeds = collect([]);
+        $feeds = [];
         foreach ($users as $user) {
-            $feeds->add($user->createFeed());
+           $feeds[] = $user->createFeed();
         }
+
+        $feeds = collect($feeds);
 
         /** @var Activity $activity */
         $activity = factory(Activity::class)->create();
