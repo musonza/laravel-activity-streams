@@ -16,7 +16,7 @@ class CreateActivityStreamsTables extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('feedable_type');
-            $table->string('feedable_id')->unsigned();
+            $table->bigInteger('feedable_id')->unsigned();
             $table->unique(['feedable_id', 'feedable_type']);
             $table->text('extra')->nullable();
             $table->timestamps();
@@ -39,8 +39,8 @@ class CreateActivityStreamsTables extends Migration
 
         Schema::create('feed_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('activity_id');
-            $table->bigInteger('feed_id');
+            $table->bigInteger('activity_id')->unsigned();
+            $table->bigInteger('feed_id')->unsigned();
             $table->unique(['feed_id', 'activity_id']);
             $table->text('extra')->nullable();
             $table->timestamps();
@@ -54,6 +54,7 @@ class CreateActivityStreamsTables extends Migration
                 ->references('id')
                 ->on('feeds')
                 ->onDelete('cascade');
+                
         });
 
         Schema::create('follows', function (Blueprint $table) {
